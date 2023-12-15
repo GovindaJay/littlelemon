@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class menuSerializer (serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ['title', 'price', 'inventory' ]
+        fields = ['id', 'title', 'price', 'inventory' ]
         
 class bookingSerializer (serializers.ModelSerializer):
     class Meta:

@@ -14,18 +14,35 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-# @authentication_classes([TokenAuthentication])
-def msg(request):
-    return Response({"message":"This view is protected"})
+from rest_framework import status
+from rest_framework.decorators import action
 
 
+@action(methods=['delete'], detail=False)
 class menuview(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Menu.objects.all()
     serializer_class = menuSerializer
+    
+    def create(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        return super().update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        return super().partial_update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)
 
 class singleitemview(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
@@ -35,8 +52,14 @@ class singleitemview(viewsets.ModelViewSet):
     
 
 class bookingview (viewsets.ModelViewSet):
-    queryset = Menu.objects.all()
+    queryset = Booking.objects.all()
     serializer_class = bookingSerializer
+    
+    
+def reservations_view(request):
+    bookings = Booking.objects.all()
+    return render(request, 'bookings.html', {'bookings': bookings})
+    
     
 
 
@@ -44,6 +67,7 @@ class userview (viewsets.ModelViewSet):
    queryset = User.objects.all()
    serializer_class = userSerializer
    permission_classes = [permissions.IsAuthenticated]
+
 
 
 
