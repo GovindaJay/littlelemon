@@ -1,1 +1,9 @@
-This is the reservation for little lemonwebsite. 
+Please review the API - The testing path are as follows:
+
+http://127.0.0.1:8000/reservations/                  (this will show the current reseravations -HTML file)
+http://127.0.0.1:8000/menu/                           (this will show the menu items and will support get option
+http://127.0.0.1:8000/menu/<int:pk>                         (this will support the post and delete operations)
+http://127.0.0.1:8000/tables/                        (this will support table reservation and table views)
+
+
+
